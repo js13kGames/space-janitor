@@ -1,0 +1,12 @@
+{
+    "name": "space-service",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "start": "http-server -p 9000 ."
+    },
+    "devDependencies": {
+        "http-server": "^13.0.1"
+    }
+}

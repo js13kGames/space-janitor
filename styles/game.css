@@ -1,0 +1,12 @@
+body, .layer {
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.layer {
+    z-index: var(--layer);
+    position: absolute;
+}
