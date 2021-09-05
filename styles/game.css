@@ -14,3 +14,21 @@ body, .layer {
 .sprite {
     position: absolute;
 }
+
+.asteroid.spinning {
+    animation-name: spin-asteroid;
+    animation-iteration-count: infinite;
+    animation-duration: var(--duration, 4s);
+    animation-timing-function: linear;
+    animation-delay: 0s;
+}
+
+@keyframes spin-asteroid {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
