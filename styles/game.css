@@ -10,3 +10,7 @@ body, .layer {
     z-index: var(--layer);
     position: absolute;
 }
+
+.sprite {
+    position: absolute;
+}
