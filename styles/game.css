@@ -13,6 +13,7 @@ body, .layer {
 
 .sprite {
     position: absolute;
+    border: 2px solid var(--border);
 }
 
 .asteroid.spinning {
