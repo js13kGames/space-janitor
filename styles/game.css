@@ -27,7 +27,7 @@ body, .layer {
 .blackhole {
     background-color: black;
     backdrop-filter: blur(25px);
-    opacity: 0.6;
+    opacity: 0.75;
     border-radius: calc(var(--width) / 2);
 }
 
