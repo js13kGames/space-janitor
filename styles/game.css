@@ -24,6 +24,18 @@ body, .layer {
     animation-delay: 0s;
 }
 
+.blackhole {
+    background-color: black;
+    backdrop-filter: blur(25px);
+    opacity: 0.6;
+    border-radius: calc(var(--width) / 2);
+}
+
+#background {
+    background-image: url('/assets/bg.png');
+    background-repeat: repeat;
+}
+
 @keyframes spin-asteroid {
     from {
         transform: rotate(0deg);
