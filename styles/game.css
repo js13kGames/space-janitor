@@ -32,7 +32,7 @@ body, .layer {
 }
 
 #background {
-    background-image: url('/assets/bg.png');
+    background-image: url('/assets/bg.jpg');
     background-repeat: repeat;
 }
 
