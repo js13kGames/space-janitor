@@ -8,9 +8,16 @@
         "start": "http-server -p 9000 ."
     },
     "devDependencies": {
+        "@babel/core": "^7.15.5",
+        "@babel/preset-env": "^7.15.6",
         "archiver": "^5.3.0",
+        "babelify": "^10.0.0",
+        "browserify": "^17.0.0",
+        "cheerio": "^1.0.0-rc.10",
         "http-server": "^13.0.1",
-        "uglify-js": "^3.14.2"
+        "image-data-uri": "^2.0.1",
+        "uglify-js": "^3.14.2",
+        "uglifyify": "^5.0.2"
     },
     "dependencies": {
         "autoprefixer": "^10.3.4",
