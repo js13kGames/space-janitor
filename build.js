@@ -36,7 +36,7 @@ const { code } = UglifyJS.minify(uglifyObject);
 $('script').each(function (index) {
     $(this).remove();
 });
-$('head').append(`<script>${code}</script>`);
+$('body').append(`<script>${code}</script>`);
 console.info('Scripts replaced. Minifying and inlining styles');
 const links = $('link');
 Promise.all(links.map(function () {
