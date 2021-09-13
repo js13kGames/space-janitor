@@ -1,5 +1,6 @@
 {
-    "name": "space-service",
+    "name": "space-janitor",
+    "description": "Game submission for the JS13K game jam: https://js13kgames.com/",
     "version": "0.1.0",
     "private": true,
     "type": "module",

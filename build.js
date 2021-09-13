@@ -14,7 +14,7 @@ function md5(d) { var r = M(V(Y(X(d), 8 * d.length))); return r.toLowerCase() };
 const cwd = process.cwd();
 const entrypoint = path.join(cwd, 'index.html');
 const dist = path.join(cwd, 'dist');
-console.log('Building project-asteroids...');
+console.log('Building project-space-janitor...');
 console.log('Removing previous build')
 rmdirSync(dist, { recursive: true });
 mkdirSync(dist, { recursive: true });
@@ -56,10 +56,10 @@ Promise.all(links.map(function () {
     );
     writeFileSync(path.join(dist, `index.${md5(html).slice(0, 8)}.html`), html);
     console.log('Zipping...');
-    const zip = createWriteStream(path.join(cwd, 'project-asteroids.zip'));
+    const zip = createWriteStream(path.join(cwd, 'project-space-janitor.zip'));
     const archive = archiver('zip');
     zip.on('close', () => {
-        console.log(`Done! File size: ${lstatSync(path.join(cwd, 'project-asteroids.zip')).size / 1000}K`);
+        console.log(`Done! File size: ${lstatSync(path.join(cwd, 'project-space-janitor.zip')).size / 1000}K`);
     });
     archive.on('error', console.error);
     archive.pipe(zip);
