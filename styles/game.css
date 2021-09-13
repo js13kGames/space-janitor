@@ -6,6 +6,10 @@ body, .layer {
     padding: 0;
 }
 
+[hidden] {
+    display: none;
+}
+
 .layer {
     z-index: var(--layer);
     position: absolute;
