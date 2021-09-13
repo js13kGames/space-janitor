@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outer Service</title>
     <link rel="stylesheet" href="./styles/game.css">
-    <script type="module" src="./lib/game.js"></script>
+    <!-- import order MUST be maintained -->
+    <script src="./lib/BodyType.js"></script>
+    <script src="./lib/Physics.js"></script>
+    <script src="./lib/Renderer.js"></script>
+    <script src="./lib/Spawner.js"></script>
+    <script src="./lib/game.js"></script>
 </head>
 <body>
     <div class="layer" style="--layer:1;" id="background"></div>

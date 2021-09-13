@@ -28,24 +28,7 @@ Promise.all($('script').map(function (script) {
             const src = $(this).attr('src');
             if (src) {
                 console.debug(`Minifying ${src}`);
-                const moduleScript = [];
-                browserify(path.join(cwd, ...src.split(/\//).filter(pathpart => !!pathpart)))
-                    .transform(function transformImport(data) {
-                        return new Transform({
-                            objectMode: true,
-                            transform(data, encoding, done) {
-                                const content = data.toString();
-                                console.log(content.match(/import\s*(.*?)\s*from(.*?);/));
-                                done(null, data);
-                            }
-                        });
-                    })
-                    .bundle()
-                    .on('data', data => moduleScript.push(data.toString()))
-                    .on('end', () => {
-                        resolve(UglifyJS.minify(moduleScript.join(''), { global: true }).code);
-                    })
-                    .on('error', reject);
+                resolve(UglifyJS.minify(readFileSync(path.join(cwd, ...src.split(/\//).filter(pathname => !!pathname)), 'utf-8'), { global: true }).code);
             }
         } catch (e) {
             reject(e);
