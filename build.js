@@ -21,50 +21,48 @@ mkdirSync(dist, { recursive: true });
 // open the entrypoint and find all assets to minify
 const $ = cheerio.load(readFileSync(entrypoint, 'utf-8'));
 // minify scripts
-Promise.all($('script').map(function (script) {
-    return new Promise((resolve, reject) => {
-        try {
-            // absolute urls are relative to cwd!
-            const src = $(this).attr('src');
-            if (src) {
-                console.debug(`Minifying ${src}`);
-                resolve(UglifyJS.minify(readFileSync(path.join(cwd, ...src.split(/\//).filter(pathname => !!pathname)), 'utf-8'), { global: true }).code);
-            }
-        } catch (e) {
-            reject(e);
-        }
-    });
-})).then((scripts = []) => {
-    $('script').each(function (index) {
-        $(this).replaceWith($(`<script>${scripts[index]}</script>`));
-    });
-    console.info('Scripts replaced. Minifying and inlining styles');
-    const links = $('link');
-    return Promise.all(links.map(function () {
-        return postcss([autoprefixer, cssnano]).process(readFileSync(path.join(cwd, ...$(this).attr('href').split(/\//).filter(pathname => !!pathname)), 'utf-8'));
-    })).then((csses = []) => {
-        csses.forEach((css, index) => {
-            $(links.get(index)).replaceWith($(`<style>${css.css}</style>`));
-        });
-        console.log('CSS minified and inlined. Minifying index.html');
-        const html = HtmlMinifier.minify(
-            $.html(),
-            {
-                removeComments: true,
-                removeOptionalTags: true,
-                removeRedundantAttributes: true
-            }
+const uglifyObject = {};
+$('script').each(function (script) {
+    const src = $(this).attr('src');
+    if (src) {
+        console.debug(`Minifying ${src}`);
+        uglifyObject[src] = readFileSync(
+            path.join(cwd, ...src.split(/\//).filter(pathname => !!pathname)),
+            'utf-8'
         );
-        writeFileSync(path.join(dist, `index.${md5(html).slice(0, 8)}.html`), html);
-        console.log('Zipping...');
-        const zip = createWriteStream(path.join(cwd, 'project-asteroids.zip'));
-        const archive = archiver('zip');
-        zip.on('close', () => {
-            console.log(`Done! File size: ${lstatSync(path.join(cwd, 'project-asteroids.zip')).size / 1000}K`);
-        });
-        archive.on('error', console.error);
-        archive.pipe(zip);
-        archive.directory(dist, false);
-        archive.finalize();
+    }
+});
+const { code } = UglifyJS.minify(uglifyObject);
+$('script').each(function (index) {
+    $(this).remove();
+});
+$('head').append(`<script>${code}</script>`);
+console.info('Scripts replaced. Minifying and inlining styles');
+const links = $('link');
+Promise.all(links.map(function () {
+    return postcss([autoprefixer, cssnano]).process(readFileSync(path.join(cwd, ...$(this).attr('href').split(/\//).filter(pathname => !!pathname)), 'utf-8'));
+})).then((csses = []) => {
+    csses.forEach((css, index) => {
+        $(links.get(index)).replaceWith($(`<style>${css.css}</style>`));
     });
-}).catch(console.error);
+    console.log('CSS minified and inlined. Minifying index.html');
+    const html = HtmlMinifier.minify(
+        $.html(),
+        {
+            removeComments: true,
+            removeOptionalTags: true,
+            removeRedundantAttributes: true
+        }
+    );
+    writeFileSync(path.join(dist, `index.${md5(html).slice(0, 8)}.html`), html);
+    console.log('Zipping...');
+    const zip = createWriteStream(path.join(cwd, 'project-asteroids.zip'));
+    const archive = archiver('zip');
+    zip.on('close', () => {
+        console.log(`Done! File size: ${lstatSync(path.join(cwd, 'project-asteroids.zip')).size / 1000}K`);
+    });
+    archive.on('error', console.error);
+    archive.pipe(zip);
+    archive.directory(dist, false);
+    archive.finalize();
+}).catch (console.error);
